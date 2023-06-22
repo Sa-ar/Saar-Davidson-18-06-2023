@@ -5,12 +5,12 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useLazyGetAutoCompleteQuery } from "@/feature/weather";
 import { Location } from "@/types";
+import { useDispatch } from "react-redux";
+import { setSelectedCity } from "@/feature/selectedCitySlice";
 
-function Search({
-  onSelect,
-}: {
-  onSelect: (e: SyntheticEvent, option: { value: string; key: string }) => void;
-}) {
+function Search() {
+  const dispatch = useDispatch();
+
   const [getAutoComplete, { data = [], isLoading }] =
     useLazyGetAutoCompleteQuery();
 
@@ -22,26 +22,22 @@ function Search({
     }
   }
 
-  function onChange(
-    e: SyntheticEvent,
-    option: string | { value: string; key: string } | null
-  ) {
+  function onChange(_e: SyntheticEvent, option: string | Location | null) {
     if (typeof option === "string") {
-      return onSelect(e, { value: option, key: "" });
+      return;
     }
+
     if (option) {
-      return onSelect(e, option);
+      dispatch(setSelectedCity(option));
     }
   }
 
   return (
     <Autocomplete
       freeSolo
-      options={data.map((city: Location) => {
-        return { value: city.LocalizedName, key: city.Key };
-      })}
+      options={data}
       getOptionLabel={(option) =>
-        typeof option === "string" ? option : option.value
+        typeof option === "string" ? option : option.LocalizedName
       }
       sx={{ width: 300 }}
       onChange={onChange}

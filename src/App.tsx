@@ -1,22 +1,24 @@
 import { ToastContainer } from "react-toastify";
-import { SyntheticEvent, useState } from "react";
 import Search from "@/components/search";
+import FiveDays from "./components/forecast/five-days";
+import { Container } from "@mui/material";
 
 function App() {
-  const [selection, setSelection] = useState({ value: "", key: "" });
-
-  function onSelect(
-    _e: SyntheticEvent,
-    option: { value: string; key: string }
-  ) {
-    setSelection(option);
-  }
   return (
-    <>
-      <Search onSelect={onSelect} />
-      {selection && <h1>{JSON.stringify(selection)}</h1>}
+    <Container
+      component="main"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        gap: 2,
+        p: 2,
+      }}
+    >
+      <Search />
+      <FiveDays />
       <ToastContainer />
-    </>
+    </Container>
   );
 }
 

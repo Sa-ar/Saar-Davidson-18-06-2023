@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { weatherApi } from '@/feature/weather'
+import selectedCityReducer from '@/feature/selectedCitySlice'
 
 export const store = configureStore({
   reducer: {
     [weatherApi.reducerPath]: weatherApi.reducer,
+    selectedCity: selectedCityReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(weatherApi.middleware),

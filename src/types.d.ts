@@ -26,31 +26,29 @@ type Headline = {
   Link: string
 }
 
-type DailyForecast = {
+export type TemperatureValue = {
+  Value: number,
+  Unit: "F" | "C",
+  UnitType: number
+}
+
+export type Temperature = {
+  Minimum: TemperatureValue,
+  Maximum: TemperatureValue
+}
+
+export type TimeOfDayIcon = {
+  Icon: number,
+  IconPhrase: string,
+  HasPrecipitation: boolean
+}
+
+export type DailyForecast = {
   Date: string,
   EpochDate: number,
-  Temperature: {
-    Minimum: {
-      Value: number,
-      Unit: "F" | "C",
-      UnitType: number
-    },
-    Maximum: {
-      Value: number,
-      Unit: "F" | "C",
-      UnitType: number
-    }
-  },
-  Day: {
-    Icon: number,
-    IconPhrase: string,
-    HasPrecipitation: boolean
-  },
-  Night: {
-    Icon: number,
-    IconPhrase: string,
-    HasPrecipitation: boolean
-  },
+  Temperature: Temperature,
+  Day: TimeOfDayIcon,
+  Night: TimeOfDayIcon,
   Sources: string[],
   MobileLink: string,
   Link: string
