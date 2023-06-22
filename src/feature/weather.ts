@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Weather, Location } from '../types';
+import type { Location, DailyWeatherResponse } from '../types';
 import { isRejectedWithValue } from '@reduxjs/toolkit'
 import type { Middleware } from '@reduxjs/toolkit'
 import { toast } from "react-toastify";
@@ -11,10 +11,10 @@ export const weatherApi = createApi({
   reducerPath: 'weatherApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://dataservice.accuweather.com/' }),
   endpoints: (builder) => ({
-    get1DayWeatherByCity: builder.query<Weather, string>({
+    get1DayWeatherByCity: builder.query<DailyWeatherResponse, string>({
       query: (locationKey) => `forecasts/v1/daily/1day/${locationKey}?apikey=${env.VITE_API_KEY}`,
     }),
-    get5DayWeatherByCity: builder.query<Weather, string>({
+    get5DayWeatherByCity: builder.query<DailyWeatherResponse, string>({
       query: (locationKey) => `forecasts/v1/daily/5day/${locationKey}?apikey=${env.VITE_API_KEY}`,
     }),
     getAutoComplete: builder.query<Location[], string>({
