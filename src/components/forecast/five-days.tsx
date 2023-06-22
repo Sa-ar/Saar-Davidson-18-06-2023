@@ -1,22 +1,28 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+
 import Icon from "@/components/icon";
 import DailyCard from "@/components/forecast/daily-card";
 import { useGet5DayWeatherByCityQuery } from "@/feature/weather";
-import { DailyForecast } from "@/types";
+import { selectSelectedCity, addFavorite } from "@/feature/locationsSlice";
 import {
   formatAverageTemperature,
   formatTemperature,
   getDayOfWeek,
   weatherText,
 } from "@/lib/utils";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { DailyForecast } from "@/types";
 
 function FiveDays() {
-  const selectedCity = useSelector((state: RootState) => state.selectedCity);
+  const dispatch = useDispatch();
+  const selectedCity = useSelector(selectSelectedCity);
   const { data, error, isLoading } = useGet5DayWeatherByCityQuery(
-    selectedCity.location.Key
+    selectedCity.Key
   );
+
+  const addToFavorites = () => {
+    dispatch(addFavorite());
+  };
 
   if (error) {
     return null;
@@ -41,26 +47,50 @@ function FiveDays() {
         <CircularProgress color="inherit" size={20} />
       ) : (
         <>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Icon number={data?.DailyForecasts[0].Day.Icon ?? 1} />
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Typography variant="h6">
-                {selectedCity.location.LocalizedName}
-              </Typography>
-              <Typography variant="body2">
-                {formatAverageTemperature(
-                  data?.DailyForecasts.map(
-                    (forecast) => forecast.Temperature
-                  ) ?? []
-                )}
-              </Typography>
+          <Box
+            sx={{
+              width: "100%",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "space-between",
+              margin: 3,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Icon number={data?.DailyForecasts[0].Day.Icon ?? 1} />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="h6">
+                  {selectedCity.LocalizedName}
+                </Typography>
+                <Typography variant="body2">
+                  {formatAverageTemperature(
+                    data?.DailyForecasts.map(
+                      (forecast) => forecast.Temperature
+                    ) ?? []
+                  )}
+                </Typography>
+              </Box>
             </Box>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "white",
+                color: "rgb(160, 78, 157)",
+                ":hover": {
+                  backgroundColor: "rgba(255, 255, 255, .2)",
+                  color: "white",
+                },
+              }}
+              onClick={addToFavorites}
+            >
+              Add to Favorites
+            </Button>
           </Box>
           <Typography
             variant="h5"

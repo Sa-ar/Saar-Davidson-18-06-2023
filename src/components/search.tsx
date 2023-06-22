@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useLazyGetAutoCompleteQuery } from "@/feature/weather";
 import { Location } from "@/types";
 import { useDispatch } from "react-redux";
-import { setSelectedCity } from "@/feature/selectedCitySlice";
+import { setSelectedCity } from "@/feature/locationsSlice";
 
 function Search() {
   const dispatch = useDispatch();

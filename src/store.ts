@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { weatherApi } from '@/feature/weather'
-import selectedCityReducer from '@/feature/selectedCitySlice'
+import selectedCityReducer from '@/feature/locationsSlice'
 
 export const store = configureStore({
   reducer: {
