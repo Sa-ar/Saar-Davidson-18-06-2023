@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Location, DailyWeatherResponse } from '../types';
 import { isRejectedWithValue } from '@reduxjs/toolkit'
 import type { Middleware } from '@reduxjs/toolkit'
 import { toast } from "react-toastify";
+
+import type { Location, DailyWeatherResponse } from '@/types';
+
 const env = import.meta.env;
 
 

@@ -3,8 +3,8 @@ import { DebounceInput } from "react-debounce-input";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useLazyGetAutoCompleteQuery } from "../feature/weather";
-import { Location } from "../types";
+import { useLazyGetAutoCompleteQuery } from "@/feature/weather";
+import { Location } from "@/types";
 
 function Search({
   onSelect,

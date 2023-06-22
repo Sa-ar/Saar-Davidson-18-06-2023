@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
-import Search from "./components/search";
 import { SyntheticEvent, useState } from "react";
+import Search from "@/components/search";
 
 function App() {
   const [selection, setSelection] = useState({ value: "", key: "" });
