@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useLazyGetAutoCompleteQuery } from "@/feature/weather";
 import { Location } from "@/types";
 import { useDispatch } from "react-redux";
-import { setSelectedCity } from "@/feature/locationsSlice";
+import { setCurrentLocation } from "@/feature/locationsSlice";
 
 function Search() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function Search() {
     }
 
     if (option) {
-      dispatch(setSelectedCity(option));
+      dispatch(setCurrentLocation(option));
     }
   }
 

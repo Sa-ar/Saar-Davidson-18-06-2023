@@ -3,7 +3,7 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { weatherApi } from '@/feature/weather'
-import selectedCityReducer from '@/feature/locationsSlice';
+import locationsReducer from '@/feature/locationsSlice';
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +12,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   [weatherApi.reducerPath]: weatherApi.reducer,
-  selectedCity: selectedCityReducer,
+  locations: locationsReducer,
 }))
 
 export const store = configureStore({

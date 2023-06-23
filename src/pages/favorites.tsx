@@ -1,5 +1,6 @@
+import FavoriteCard from "@/components/favorite-card";
 import { selectFavorites } from "@/feature/locationsSlice";
-import { Container, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 
 function Favorites() {
@@ -23,9 +24,11 @@ function Favorites() {
           No Favorites
         </Typography>
       ) : (
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          {favorites.map((city) => city.LocalizedName).join(", ")}
-        </Typography>
+        <Grid container>
+          {favorites.map((location) => (
+            <FavoriteCard location={location} />
+          ))}
+        </Grid>
       )}
     </Container>
   );

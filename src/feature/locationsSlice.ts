@@ -26,11 +26,11 @@ const initialState: LocationsState = {
   favorites: [],
 };
 
-export const selectedCitySlice = createSlice({
-  name: 'selectedCity',
+export const locationsSlice = createSlice({
+  name: 'locations',
   initialState,
   reducers: {
-    setSelectedCity: (state, action: PayloadAction<Location>) => {
+    setCurrentLocation: (state, action: PayloadAction<Location>) => {
       state.currentLocation = action.payload;
     },
     addFavorite: (state) => {
@@ -46,9 +46,9 @@ export const selectedCitySlice = createSlice({
   },
 });
 
-export const { setSelectedCity, addFavorite, removeFavorite } = selectedCitySlice.actions;
+export const { setCurrentLocation, addFavorite, removeFavorite } = locationsSlice.actions;
 
-export const selectSelectedCity = (state: RootState) => state.selectedCity.currentLocation;
-export const selectFavorites = (state: RootState) => state.selectedCity.favorites;
+export const selectCurrentLocation = (state: RootState) => state.locations.currentLocation;
+export const selectFavorites = (state: RootState) => state.locations.favorites;
 
-export default selectedCitySlice.reducer;
+export default locationsSlice.reducer;

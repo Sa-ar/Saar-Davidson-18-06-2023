@@ -4,7 +4,7 @@ import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Icon from "@/components/icon";
 import DailyCard from "@/components/forecast/daily-card";
 import { useGet5DayWeatherByCityQuery } from "@/feature/weather";
-import { selectSelectedCity, addFavorite } from "@/feature/locationsSlice";
+import { selectCurrentLocation, addFavorite } from "@/feature/locationsSlice";
 import {
   formatAverageTemperature,
   formatTemperature,
@@ -15,7 +15,7 @@ import { DailyForecast } from "@/types";
 
 function FiveDays() {
   const dispatch = useDispatch();
-  const selectedCity = useSelector(selectSelectedCity);
+  const selectedCity = useSelector(selectCurrentLocation);
   const { data, error, isLoading } = useGet5DayWeatherByCityQuery(
     selectedCity.Key
   );
