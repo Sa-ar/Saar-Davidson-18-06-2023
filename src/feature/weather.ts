@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 
 import type { Location, DailyWeatherResponse } from '@/types';
 
-const env = import.meta.env;
-
+const env = import.meta.env ?? process.env;
 
 // Define a service using a base URL and expected endpoints
 export const weatherApi = createApi({
