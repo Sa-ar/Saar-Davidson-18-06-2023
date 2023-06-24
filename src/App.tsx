@@ -15,6 +15,7 @@ function App() {
 
   return (
     <Box
+      component="div"
       sx={{
         background: theme.background,
         color: theme.color,
