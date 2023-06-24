@@ -1,5 +1,7 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import Icon from "@/components/icon";
+import { selectTheme } from "@/feature/settingsSlice";
+import { useSelector } from "react-redux";
 
 function DailyCard({
   day,
@@ -12,11 +14,14 @@ function DailyCard({
   iconNumber: number;
   shortPhrase?: string;
 }) {
+  const theme = useSelector(selectTheme);
+
   return (
     <Card
       sx={{
         textAlign: "center",
-        background: "rgba(255, 255, 255, 0.7)",
+        background: theme.background,
+        color: theme.color,
         flex: 1,
       }}
     >

@@ -12,11 +12,14 @@ import { Location } from "@/types";
 import { toast } from "react-toastify";
 import Icon from "@/components/icon";
 import { formatTemperature } from "@/lib/utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFavorite } from "@/feature/locationsSlice";
+import { selectIsCelsius, selectTheme } from "@/feature/settingsSlice";
 
 function FavoriteCard({ location }: { location: Location }) {
   const dispatch = useDispatch();
+  const theme = useSelector(selectTheme);
+  const isCelsius = useSelector(selectIsCelsius);
   const { data, error, isLoading } = useGet1DayWeatherByCityQuery(
     location.Key,
     { skip: !location.Key }
@@ -40,8 +43,8 @@ function FavoriteCard({ location }: { location: Location }) {
       <Card
         sx={{
           textAlign: "center",
-          background: "rgb(160, 78, 157)",
-          color: "white",
+          background: theme.cardBackground,
+          color: theme.cardColor,
           flex: 1,
           position: "relative",
         }}
@@ -75,7 +78,8 @@ function FavoriteCard({ location }: { location: Location }) {
               data?.DailyForecasts[0].Temperature ?? {
                 Minimum: { Value: 0, Unit: "C", UnitType: 0 },
                 Maximum: { Value: 0, Unit: "C", UnitType: 0 },
-              }
+              },
+              isCelsius
             )}
           </Typography>
           {Boolean(data?.Headline.Text) && (

@@ -5,11 +5,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useLazyGetAutoCompleteQuery } from "@/feature/weather";
 import { Location } from "@/types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLocation } from "@/feature/locationsSlice";
+import { selectTheme } from "@/feature/settingsSlice";
 
 function Search() {
   const dispatch = useDispatch();
+  const theme = useSelector(selectTheme);
 
   const [getAutoComplete, { data = [], isLoading }] =
     useLazyGetAutoCompleteQuery();
@@ -39,7 +41,7 @@ function Search() {
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.LocalizedName
       }
-      sx={{ width: 300 }}
+      sx={{ width: 300, color: theme.color }}
       onChange={onChange}
       loading={isLoading}
       renderInput={(params) => (
@@ -51,6 +53,17 @@ function Search() {
           label="Location search"
           variant="filled"
           fullWidth
+          sx={{
+            backgroundColor: theme.cardBackground,
+            color: theme.color,
+            borderColor: theme.color,
+            "& .MuiFormLabel-root, & .Mui-Focused": {
+              color: theme.cardColor,
+            },
+            "& .MuiInputBase-root::after": {
+              borderColor: theme.color,
+            },
+          }}
           InputProps={{
             ...params.InputProps,
             endAdornment: (

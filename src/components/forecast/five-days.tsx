@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 
 import Icon from "@/components/icon";
 import DailyCard from "@/components/forecast/daily-card";
@@ -12,9 +12,13 @@ import {
   weatherText,
 } from "@/lib/utils";
 import { DailyForecast } from "@/types";
+import { selectIsCelsius, selectTheme } from "@/feature/settingsSlice";
+import { toast } from "react-toastify";
 
 function FiveDays() {
   const dispatch = useDispatch();
+  const theme = useSelector(selectTheme);
+  const isCelsius = useSelector(selectIsCelsius);
   const selectedCity = useSelector(selectCurrentLocation);
   const { data, error, isLoading } = useGet5DayWeatherByCityQuery(
     selectedCity.Key
@@ -25,6 +29,7 @@ function FiveDays() {
   };
 
   if (error) {
+    toast.error("Error fetching weather data");
     return null;
   }
 
@@ -35,8 +40,8 @@ function FiveDays() {
         justifyContent: "space-between",
         flexWrap: "wrap",
         gap: 2,
-        backgroundColor: "rgb(160, 78, 157)",
-        color: "white",
+        backgroundColor: theme.cardBackground,
+        color: theme.cardColor,
         width: "100%",
         height: "100%",
         p: 2,
@@ -72,7 +77,8 @@ function FiveDays() {
                   {formatAverageTemperature(
                     data?.DailyForecasts.map(
                       (forecast) => forecast.Temperature
-                    ) ?? []
+                    ) ?? [],
+                    isCelsius
                   )}
                 </Typography>
               </Box>
@@ -80,11 +86,11 @@ function FiveDays() {
             <Button
               variant="contained"
               sx={{
-                backgroundColor: "white",
-                color: "rgb(160, 78, 157)",
+                backgroundColor: theme.buttonBackground,
+                color: theme.buttonColor,
                 ":hover": {
-                  backgroundColor: "rgba(255, 255, 255, .2)",
-                  color: "white",
+                  backgroundColor: theme.buttonHoverBackground,
+                  color: theme.buttonHoverColor,
                 },
               }}
               onClick={addToFavorites}
@@ -98,17 +104,25 @@ function FiveDays() {
           >
             {data?.Headline.Text}
           </Typography>
-          {data?.DailyForecasts.map((day: DailyForecast) => {
-            return (
-              <DailyCard
-                key={day.Date}
-                day={getDayOfWeek(day.Date)}
-                temperature={formatTemperature(day.Temperature)}
-                iconNumber={day.Day.Icon}
-                shortPhrase={weatherText(day.Day.Icon)}
-              />
-            );
-          })}
+          <Grid
+            container
+            gap={1}
+            columns={11}
+            sx={{ justifyContent: "space-between" }}
+          >
+            {data?.DailyForecasts.map((day: DailyForecast) => {
+              return (
+                <Grid item xs={11} sm={5} lg={2} key={day.Date}>
+                  <DailyCard
+                    day={getDayOfWeek(day.Date)}
+                    temperature={formatTemperature(day.Temperature, isCelsius)}
+                    iconNumber={day.Day.Icon}
+                    shortPhrase={weatherText(day.Day.Icon)}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
         </>
       )}
     </Box>

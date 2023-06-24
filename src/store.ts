@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { weatherApi } from '@/feature/weather'
 import locationsReducer from '@/feature/locationsSlice';
+import settingsReducer from '@/feature/settingsSlice';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +14,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   [weatherApi.reducerPath]: weatherApi.reducer,
   locations: locationsReducer,
+  settings: settingsReducer,
 }))
 
 export const store = configureStore({

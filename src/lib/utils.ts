@@ -12,13 +12,26 @@ export function getDayOfWeek(date: string) {
   return new Date(date).toLocaleString('en-US', { weekday: 'short' });
 }
 
-export function formatAverageTemperature(temp: Temperature[]) {
+export function formatAverageTemperature(temp: Temperature[], isCelsius: boolean) {
   const average = temp.reduce((acc, curr) => acc + ((curr.Maximum.Value + curr.Minimum.Value) / 2), 0) / temp.length;
-  return `${average.toFixed(1)}°${temp[0].Maximum.Unit}`
+  const givenUnit = temp[0].Maximum.Unit;
+
+  if (givenUnit === 'F') {
+    return isCelsius ? `${fahrenheitToCelsius(average).toFixed(1)}°C` : `${average.toFixed(1)}°F`;
+  } else {
+    return isCelsius ? `${average.toFixed(1)}°C` : `${celsiusToFahrenheit(average).toFixed(1)}°F`;
+  }
 }
 
-export function formatTemperature(temp: Temperature) {
-  return `${((temp.Maximum.Value + temp.Minimum.Value) / 2).toFixed(1)}°${temp.Maximum.Unit}`
+export function formatTemperature(temp: Temperature, isCelsius: boolean) {
+  const average = (temp.Maximum.Value + temp.Minimum.Value) / 2;
+  const givenUnit = temp.Maximum.Unit;
+
+  if (givenUnit === 'F') {
+    return isCelsius ? `${fahrenheitToCelsius(average).toFixed(1)}°C` : `${average.toFixed(1)}°F`;
+  } else {
+    return isCelsius ? `${average.toFixed(1)}°C` : `${celsiusToFahrenheit(average).toFixed(1)}°F`;
+  }
 }
 
 const weatherTextMap = {
