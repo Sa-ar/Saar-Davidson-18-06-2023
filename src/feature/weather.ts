@@ -10,7 +10,7 @@ const env = import.meta.env ?? process.env;
 // Define a service using a base URL and expected endpoints
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://dataservice.accuweather.com/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://dataservice.accuweather.com/' }),
   endpoints: (builder) => ({
     get1DayWeatherByCity: builder.query<DailyWeatherResponse, string>({
       query: (locationKey) => `forecasts/v1/daily/1day/${locationKey}?apikey=${env.VITE_API_KEY}`,
