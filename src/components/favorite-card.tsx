@@ -13,8 +13,9 @@ import { toast } from "react-toastify";
 import Icon from "@/components/icon";
 import { formatTemperature } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFavorite } from "@/feature/locationsSlice";
+import { removeFavorite, setCurrentLocation } from "@/feature/locationsSlice";
 import { selectIsCelsius, selectTheme } from "@/feature/settingsSlice";
+import { setCurrentPageNumber } from "@/feature/pagesSlice";
 
 function FavoriteCard({ location }: { location: Location }) {
   const dispatch = useDispatch();
@@ -27,6 +28,11 @@ function FavoriteCard({ location }: { location: Location }) {
 
   const removeLocationFromFavorite = () => {
     dispatch(removeFavorite(location));
+  };
+
+  const onCardClick = () => {
+    dispatch(setCurrentLocation(location));
+    dispatch(setCurrentPageNumber(0));
   };
 
   if (error) {
@@ -47,7 +53,10 @@ function FavoriteCard({ location }: { location: Location }) {
           color: theme.cardColor,
           flex: 1,
           position: "relative",
+          cursor: "pointer",
+          height: "100%",
         }}
+        onClick={onCardClick}
       >
         <CardContent>
           <Button

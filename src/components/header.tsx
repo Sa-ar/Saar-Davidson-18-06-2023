@@ -1,8 +1,12 @@
 import { selectTheme } from "@/feature/settingsSlice";
 import { Container, Tab, Tabs, Typography } from "@mui/material";
-import { SetStateAction } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SettingsButton from "./settings-button";
+import {
+  selectCurrentPageNumber,
+  selectPages,
+  setCurrentPageNumber,
+} from "@/feature/pagesSlice";
 
 function a11yProps(index: number) {
   return {
@@ -11,16 +15,14 @@ function a11yProps(index: number) {
   };
 }
 
-function Header({
-  page,
-  changePage,
-}: {
-  page: number;
-  changePage: React.Dispatch<SetStateAction<number>>;
-}) {
+function Header() {
+  const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
+  const pages = useSelector(selectPages);
+  const currentPage = useSelector(selectCurrentPageNumber);
+
   const handleChange = (_e: React.SyntheticEvent, newValue: number) => {
-    changePage(newValue);
+    dispatch(setCurrentPageNumber(newValue));
   };
 
   return (
@@ -45,7 +47,7 @@ function Header({
         Weather
       </Typography>
       <Tabs
-        value={page}
+        value={currentPage}
         onChange={handleChange}
         aria-label="pages"
         sx={{
@@ -54,32 +56,22 @@ function Header({
           },
         }}
       >
-        <Tab
-          label="Home"
-          {...a11yProps(0)}
-          sx={{
-            color: theme.color,
-            "&.MuiTab-root": {
-              outlineColor: theme.buttonColor,
-            },
-            "&.Mui-selected": {
-              color: theme.buttonColor,
-            },
-          }}
-        />
-        <Tab
-          label="Favorites"
-          {...a11yProps(1)}
-          sx={{
-            color: theme.color,
-            "&.MuiTab-root": {
-              outlineColor: theme.buttonColor,
-            },
-            "&.Mui-selected": {
-              color: theme.buttonColor,
-            },
-          }}
-        />
+        {pages.map((page) => (
+          <Tab
+            key={page.number}
+            label={page.label}
+            {...a11yProps(page.number)}
+            sx={{
+              color: theme.color,
+              "&.MuiTab-root": {
+                outlineColor: theme.buttonColor,
+              },
+              "&.Mui-selected": {
+                color: theme.buttonColor,
+              },
+            }}
+          />
+        ))}
       </Tabs>
       <SettingsButton />
     </Container>

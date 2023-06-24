@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 import Header from "@/components/header";
@@ -8,9 +7,10 @@ import Favorites from "./pages/favorites";
 import { selectTheme } from "./feature/settingsSlice";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
+import { selectCurrentPageNumber } from "./feature/pagesSlice";
 
 function App() {
-  const [page, setPage] = useState(0);
+  const currentPage = useSelector(selectCurrentPageNumber);
   const theme = useSelector(selectTheme);
 
   return (
@@ -21,11 +21,11 @@ function App() {
         minHeight: "100vh",
       }}
     >
-      <Header page={page} changePage={setPage} />
-      <TabPanel value={page} index={0}>
+      <Header />
+      <TabPanel value={currentPage} index={0}>
         <SearchForecast />
       </TabPanel>
-      <TabPanel value={page} index={1}>
+      <TabPanel value={currentPage} index={1}>
         <Favorites />
       </TabPanel>
       <ToastContainer />

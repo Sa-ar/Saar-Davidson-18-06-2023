@@ -24,7 +24,7 @@ function Favorites() {
           No Favorites
         </Typography>
       ) : (
-        <Grid container>
+        <Grid container spacing={1}>
           {favorites.map((location) => (
             <FavoriteCard location={location} />
           ))}

@@ -38,6 +38,15 @@ export const locationsSlice = createSlice({
         state.favorites = [...state.favorites, state.currentLocation];
       }
     },
+    switchFavorite: (state) => {
+      if (state.favorites.find((favorite) => favorite.Key === state.currentLocation.Key)) {
+        state.favorites = state.favorites.filter(
+          (favorite) => favorite.Key !== state.currentLocation.Key
+        );
+      } else {
+        state.favorites = [...state.favorites, state.currentLocation];
+      }
+    },
     removeFavorite: (state, action: PayloadAction<Location>) => {
       state.favorites = state.favorites.filter(
         (favorite) => favorite !== action.payload
@@ -46,7 +55,7 @@ export const locationsSlice = createSlice({
   },
 });
 
-export const { setCurrentLocation, addFavorite, removeFavorite } = locationsSlice.actions;
+export const { setCurrentLocation, addFavorite, removeFavorite, switchFavorite } = locationsSlice.actions;
 
 export const selectCurrentLocation = (state: RootState) => state.locations.currentLocation;
 export const selectFavorites = (state: RootState) => state.locations.favorites;

@@ -23,6 +23,7 @@ function DailyCard({
         background: theme.background,
         color: theme.color,
         flex: 1,
+        height: "100%",
       }}
     >
       <CardContent>

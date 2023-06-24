@@ -1,10 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import Icon from "@/components/icon";
 import DailyCard from "@/components/forecast/daily-card";
 import { useGet5DayWeatherByCityQuery } from "@/feature/weather";
-import { selectCurrentLocation, addFavorite } from "@/feature/locationsSlice";
+import {
+  selectCurrentLocation,
+  selectFavorites,
+  switchFavorite,
+} from "@/feature/locationsSlice";
 import {
   formatAverageTemperature,
   formatTemperature,
@@ -13,19 +20,22 @@ import {
 } from "@/lib/utils";
 import { DailyForecast } from "@/types";
 import { selectIsCelsius, selectTheme } from "@/feature/settingsSlice";
-import { toast } from "react-toastify";
 
 function FiveDays() {
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
   const isCelsius = useSelector(selectIsCelsius);
+  const favorites = useSelector(selectFavorites);
   const selectedCity = useSelector(selectCurrentLocation);
+  const isInFavorites = favorites.some(
+    (favorite) => favorite.Key === selectedCity.Key
+  );
   const { data, error, isLoading } = useGet5DayWeatherByCityQuery(
     selectedCity.Key
   );
 
-  const addToFavorites = () => {
-    dispatch(addFavorite());
+  const switchFavoritesHandler = () => {
+    dispatch(switchFavorite());
   };
 
   if (error) {
@@ -93,9 +103,10 @@ function FiveDays() {
                   color: theme.buttonHoverColor,
                 },
               }}
-              onClick={addToFavorites}
+              onClick={switchFavoritesHandler}
             >
-              Add to Favorites
+              {/* <FavoriteBorderIcon /> */}
+              {isInFavorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </Button>
           </Box>
           <Typography
@@ -104,15 +115,10 @@ function FiveDays() {
           >
             {data?.Headline.Text}
           </Typography>
-          <Grid
-            container
-            gap={1}
-            columns={11}
-            sx={{ justifyContent: "space-between" }}
-          >
+          <Grid container spacing={1} columns={10}>
             {data?.DailyForecasts.map((day: DailyForecast) => {
               return (
-                <Grid item xs={11} sm={5} lg={2} key={day.Date}>
+                <Grid item xs={10} sm={5} md={2} lg={2} key={day.Date}>
                   <DailyCard
                     day={getDayOfWeek(day.Date)}
                     temperature={formatTemperature(day.Temperature, isCelsius)}
