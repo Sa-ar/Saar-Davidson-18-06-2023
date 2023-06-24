@@ -38,7 +38,15 @@ function SettingsButton() {
 
   return (
     <>
-      <IconButton onClick={handleClickOpen} sx={{ color: "currentcolor" }}>
+      <IconButton
+        onClick={handleClickOpen}
+        sx={{
+          color: "currentcolor",
+          outlineColor: "currentcolor",
+          p: 0,
+          paddingBottom: 1,
+        }}
+      >
         <SettingsIcon />
       </IconButton>
       <Dialog

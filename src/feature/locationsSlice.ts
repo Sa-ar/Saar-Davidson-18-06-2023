@@ -49,7 +49,7 @@ export const locationsSlice = createSlice({
     },
     removeFavorite: (state, action: PayloadAction<Location>) => {
       state.favorites = state.favorites.filter(
-        (favorite) => favorite !== action.payload
+        (favorite) => favorite.Key !== action.payload.Key
       );
     }
   },

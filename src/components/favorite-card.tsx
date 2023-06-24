@@ -5,6 +5,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useGet1DayWeatherByCityQuery } from "@/feature/weather";
@@ -26,7 +27,10 @@ function FavoriteCard({ location }: { location: Location }) {
     { skip: !location.Key }
   );
 
-  const removeLocationFromFavorite = () => {
+  const removeLocationFromFavorite = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     dispatch(removeFavorite(location));
   };
 
@@ -53,24 +57,22 @@ function FavoriteCard({ location }: { location: Location }) {
           color: theme.cardColor,
           flex: 1,
           position: "relative",
-          cursor: "pointer",
           height: "100%",
         }}
-        onClick={onCardClick}
       >
-        <CardContent>
+        <CardContent sx={{ p: 0, paddingBottom: "0 !important" }}>
           <Button
             variant="outlined"
             sx={{
               backgroundColor: "transparent",
-              color: "white",
+              color: theme.buttonColor,
               borderColor: "transparent",
               position: "absolute",
               top: 0,
               right: 0,
               ":hover": {
                 backgroundColor: "transparent",
-                color: "rgba(255, 255, 255, 0.5)",
+                color: theme.buttonHoverColor,
                 borderColor: "transparent",
               },
             }}
@@ -78,22 +80,25 @@ function FavoriteCard({ location }: { location: Location }) {
           >
             <DeleteIcon />
           </Button>
-          <Typography variant="h6">{location.LocalizedName}</Typography>
-          {Boolean(data?.DailyForecasts[0].Day.Icon) && (
-            <Icon number={data?.DailyForecasts[0].Day.Icon ?? 1} />
-          )}
-          <Typography sx={{ mb: 1.5 }}>
-            {formatTemperature(
-              data?.DailyForecasts[0].Temperature ?? {
-                Minimum: { Value: 0, Unit: "C", UnitType: 0 },
-                Maximum: { Value: 0, Unit: "C", UnitType: 0 },
-              },
-              isCelsius
+          <Box sx={{ position: "relative", p: 2, pb: 3.5, mt: 3.5 }}>
+            <button onClick={onCardClick} className="wrapper-button" />
+            <Typography variant="h6">{location.LocalizedName}</Typography>
+            {Boolean(data?.DailyForecasts[0].Day.Icon) && (
+              <Icon number={data?.DailyForecasts[0].Day.Icon ?? 1} />
             )}
-          </Typography>
-          {Boolean(data?.Headline.Text) && (
-            <Typography variant="body2">{data?.Headline.Text}</Typography>
-          )}
+            <Typography sx={{ mb: 1.5 }}>
+              {formatTemperature(
+                data?.DailyForecasts[0].Temperature ?? {
+                  Minimum: { Value: 0, Unit: "C", UnitType: 0 },
+                  Maximum: { Value: 0, Unit: "C", UnitType: 0 },
+                },
+                isCelsius
+              )}
+            </Typography>
+            {Boolean(data?.Headline.Text) && (
+              <Typography variant="body2">{data?.Headline.Text}</Typography>
+            )}
+          </Box>
         </CardContent>
       </Card>
     </Grid>

@@ -20,6 +20,7 @@ function App() {
         background: theme.background,
         color: theme.color,
         minHeight: "100vh",
+        width: "100%",
       }}
     >
       <Header />

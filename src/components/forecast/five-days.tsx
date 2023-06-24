@@ -68,7 +68,6 @@ function FiveDays() {
               textAlign: "center",
               display: "flex",
               justifyContent: "space-between",
-              margin: 3,
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
