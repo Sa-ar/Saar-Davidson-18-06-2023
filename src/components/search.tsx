@@ -41,7 +41,7 @@ function Search() {
       getOptionLabel={(option) =>
         typeof option === "string" ? option : option.LocalizedName
       }
-      sx={{ width: 300, color: theme.color }}
+      sx={{ width: 300, color: theme.color, mx: "auto" }}
       onChange={onChange}
       loading={isLoading}
       renderInput={(params) => (
