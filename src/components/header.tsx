@@ -58,7 +58,7 @@ function Header() {
             paddingBottom: 1,
           }}
         >
-          <img src="/spinomenal_logo.webp" alt="logo" height="32" />
+          <img src="/spinomenal_logo.webp" alt="logo" height="32" width="32" />
           Weather
         </Typography>
         <Tabs
